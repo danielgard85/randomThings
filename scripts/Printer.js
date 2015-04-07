@@ -17,8 +17,14 @@ var configurationPrinter = {
 		},
 		next: function () {
 			var anchors = $('a.nav-link').filter('[role="next"]');
-			if(anchors.length)
-			anchors[0].click();
+			if(anchors.length){
+				anchors[0].click();
+			}
+			else{
+				scheduler.stop();
+				cloner.append();
+				console.log('Nothing left to add');
+			}
 		}
 	},
 	cloner = {
@@ -77,7 +83,8 @@ var configurationPrinter = {
 		function getRandomTimer () {
 			var from = configurationPrinter.timeIntervalFrom,
 				to   = configurationPrinter.timeIntervalTo;
-			return ((Math.random()*(to - from))+from)*1000;
+
+			return Math.round(((Math.random()*(to - from))+from)*1000);
 		}
 
 		function iterativeAction( ) {
@@ -111,6 +118,11 @@ var configurationPrinter = {
 					isActive = true;
 					playPauseAction();
 				}
+			},
+			stop:function ( ) {
+				clearTimeout(currentTimer);
+				currentTimer = null;
+				isActive = false;
 			}
 		};
 	}());
