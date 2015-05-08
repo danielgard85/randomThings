@@ -65,7 +65,7 @@ var configurationPrinter = {
 							'jq.src = "//code.jquery.com/jquery-1.11.1.min.js";',
 							'document.getElementsByTagName("head")[0].appendChild(jq);',
 						'</script>',
-						'<script>var $; setTimeout(function(){ $("a").attr("href","#") },500);</script>',
+						'<script>var $; setTimeout(function(){ $("a").removeAttr("href"); },100);</script>',
 					'</body>',
 				'</html>'
 				].join('\n'));
