@@ -65,6 +65,7 @@ var configurationPrinter = {
 							'jq.src = "//code.jquery.com/jquery-1.11.1.min.js";',
 							'document.getElementsByTagName("head")[0].appendChild(jq);',
 						'</script>',
+						'<script>var $; setTimeout(function(){ $("a").attr("href","#") },500);</script>',
 					'</body>',
 				'</html>'
 				].join('\n'));
@@ -162,4 +163,8 @@ $(document).on('keydown',function (ev) {
 });
 
 console.clear();
+setTimeout(function () {
+	console.log('Press "p" to start/pause\nPress "x" to see final result');	
+},100);
+
 }(jQuery,configurationPrinter))
