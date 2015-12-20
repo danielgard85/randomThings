@@ -1,24 +1,34 @@
 var configurationPrinter = {
 	// time intervals in seconds
 	timeIntervalFrom : 5,
-	timeIntervalTo   : 20
+	timeIntervalTo   : 10
 };
 
 (function ($, cf) {
+
+	function clickElement (domElem) {
+		var evt = new MouseEvent("click", {
+			bubbles: true,
+			cancelable: true,
+			view: window,
+		});
+
+		domElem.dispatchEvent(evt);
+	}
 
 	var	fragment = $('<div class="annotator-wrapper"></div>'),
 	clicker = {
 		prev: function () {
 
-			var anchors = $('a.nav-link').filter('[role="prev"]');
+			var anchors = $('.sbo-nav-top a.prev.nav-link');
 
 			if(anchors.length)
-			anchors[0].click();
+			clickElement(anchors[0]);
 		},
 		next: function () {
-			var anchors = $('a.nav-link').filter('[role="next"]');
+			var anchors = $('.sbo-nav-top a.next.nav-link');
 			if(anchors.length){
-				anchors[0].click();
+				clickElement(anchors[0]);
 			}
 			else{
 				scheduler.stop();
@@ -78,7 +88,7 @@ var configurationPrinter = {
 		}
 	},
 	scheduler = (function () {
-		var currentTimer = null,
+		var currentTimer = false,
 			isActive = false;
 
 		function getRandomTimer () {
@@ -103,7 +113,7 @@ var configurationPrinter = {
 				else{
 					if(!currentTimer){
 						clearTimeout(currentTimer);
-						currentTimer = null;
+						currentTimer = false;
 					}
 				}
 		}
@@ -113,16 +123,18 @@ var configurationPrinter = {
 				if(currentTimer){
 					clearTimeout(currentTimer);
 					isActive = false;
-					currentTimer = null;
+					currentTimer = false;
+					console.log('Paused');
 				}
 				else{
 					isActive = true;
+					console.log('Running');
 					playPauseAction();
 				}
 			},
 			stop:function ( ) {
 				clearTimeout(currentTimer);
-				currentTimer = null;
+				currentTimer = false;
 				isActive = false;
 			}
 		};
@@ -150,7 +162,7 @@ function handler (key) {
 		case 86:
 			printer.toConsole();
 			break;
-		// 'x' : Remove from list
+		// 'x' : Open Document
 		case 88: 
 			printer.toWindow();
 			break;
